@@ -16,3 +16,7 @@ Using LWJGL 2 and Slick-Utils
   <img width="300" src="https://github.com/georgebzhang/Java_OpenGL_3D_Game/blob/master/Readme_img/3.PNG">
 </p>
 
+4. Rendering a rectangle composed of two triangles using VAOs, VBOs, Index Buffers, vertex shaders, and fragment shaders.
+<p align="center">
+  <img width="300" src="https://github.com/georgebzhang/Java_OpenGL_3D_Game/blob/master/Readme_img/3.PNG">
+</p>
