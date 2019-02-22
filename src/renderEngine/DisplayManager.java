@@ -15,9 +15,9 @@ public class DisplayManager {
 	
 	public static void createDisplay() {
 		
-		ContextAttribs attribs = new ContextAttribs(3,2); // 3,2 for 3.2 (version of OpenGL)
-		attribs.withForwardCompatible(true); // not important, just settings
-		attribs.withProfileCore(true); // not important, just settings
+		ContextAttribs attribs = new ContextAttribs(3,2) // 3,2 for 3.2 (version of OpenGL)
+				.withForwardCompatible(true) // setting context attribs must all be done in one line
+				.withProfileCore(true); // setting context attribs must all be done in one line
 		
 		try {
 			Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));

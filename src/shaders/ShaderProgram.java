@@ -3,15 +3,21 @@ package shaders;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.FloatBuffer;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
+import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
 
 // represents generic shader program containing all attributes and methods every shader program must have
 public abstract class ShaderProgram {
 	private int programID;
 	private int vertexShaderID;
 	private int fragmentShaderID;
+	
+	private static FloatBuffer matrixBuffer = BufferUtils.createFloatBuffer(16); // FloatBuffer we can reuse every time we want to load a 4x4 matrix to a uniform location
 	
 	public ShaderProgram(String vertexFile, String fragmentFile) {
 		// get IDs of vertex shader and fragment shader
@@ -21,9 +27,18 @@ public abstract class ShaderProgram {
 		programID = GL20.glCreateProgram();
 		GL20.glAttachShader(programID, vertexShaderID);
 		GL20.glAttachShader(programID, fragmentShaderID);
+		bindAttributes(); // make sure bindAttributes() is called before program is linked
 		GL20.glLinkProgram(programID);
 		GL20.glValidateProgram(programID);
-		bindAttributes();
+		getAllUniformLocations();
+	}
+	
+	// makes sure all shader program classes have a method to get all uniform locations
+	protected abstract void getAllUniformLocations();
+	
+	// gets location (int) of a uniform variable in shader code
+	protected int getUniformLocation(String uniformName) {
+		return GL20.glGetUniformLocation(programID, uniformName);
 	}
 	
 	// have to start program in order to use it
@@ -49,6 +64,28 @@ public abstract class ShaderProgram {
 	// classes implementing ShaderProgram must define bindAttributes()
 	// links inputs to shader programs to one of the attributes of the VAO
 	protected abstract void bindAttributes();
+	
+	// methods to load values to uniform locations
+	protected void loadFloat(int location, float value) {
+		GL20.glUniform1f(location, value);
+	}
+	
+	protected void loadVector(int location, Vector3f value) {
+		GL20.glUniform3f(location, value.x, value.y, value.z);
+	}
+	
+	protected void loadBoolean(int location, boolean value) {
+		float toLoad = 0;
+		if (value)
+			toLoad = 1;
+		GL20.glUniform1f(location, toLoad);
+	}
+	
+	protected void loadMatrix(int location, Matrix4f matrix) {
+		matrix.store(matrixBuffer); // stores Matrix4f into FloatBuffer
+		matrixBuffer.flip(); // switch from write to read
+		GL20.glUniformMatrix4(location, false, matrixBuffer); // 2nd param is transpose
+	}
 	
 	// need this method, cannot be done outside this class since programID is private
 	// binds attribute list at index attribute of currently bound VAO to variable name in shader code
