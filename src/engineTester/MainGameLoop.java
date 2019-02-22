@@ -4,11 +4,13 @@ package engineTester;
 
 import org.lwjgl.opengl.Display;
 
+import models.RawModel;
+import models.TexturedModel;
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
-import renderEngine.RawModel;
 import renderEngine.Renderer;
 import shaders.StaticShader;
+import textures.ModelTexture;
 
 public class MainGameLoop {
 
@@ -32,13 +34,23 @@ public class MainGameLoop {
 				3,1,2 // bottom right triangle (V3, V1, V2)
 		};
 		
-		RawModel model = loader.loadToVAO(vertices, indices); // loads vertices into a VBO, which is loaded into an attribute list in a VAO, whose ID is stored in the returned RawModel model
+		float[] textureCoords = {
+				0,0, // V0
+				0,1, // V1
+				1,1, // V2
+				1,0 // V3
+		};
+		
+		RawModel model = loader.loadToVAO(vertices, textureCoords, indices); // loads vertices into a VBO, which is loaded into an attribute list in a VAO, whose ID is stored in the returned RawModel model
+		ModelTexture texture = new ModelTexture(loader.loadTexture("image"));
+		TexturedModel texturedModel = new TexturedModel(model, texture);
 		
 		while(!Display.isCloseRequested()) {
 			// game logic
 			renderer.prepare(); // called once every frame to prepare OpenGL to render game
 			shader.start(); // start program to use it
-			renderer.render(model); // renders model by drawing data from its VAO
+			//renderer.render(model); // renders model by drawing data from its VAO
+			renderer.render(texturedModel);
 			shader.stop(); // done using program
 			DisplayManager.updateDisplay();
 		}

@@ -1,9 +1,11 @@
 #version 400 core // GLSL version
 
-in vec3 colour; // input of fragmentShader is output of vertexShader
+in vec2 pass_textureCoords; // input of fragmentShader is output of vertexShader
 
 out vec4 out_Color; // color of pixel currently being processed
 
+uniform sampler2D textureSampler; // represents texture we will be using
+
 void main(void) {
-	out_Color = vec4(colour, 1.0);
+	out_Color = texture(textureSampler, pass_textureCoords); // texture(...) is a GLSL method, samples given texture in sampler2D, returns color of pixel on texture at textureCoords
 }
