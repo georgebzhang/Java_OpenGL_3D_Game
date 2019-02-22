@@ -1,6 +1,7 @@
 package renderEngine;
 
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +19,13 @@ public class Loader {
 	private List<Integer> vbos = new ArrayList<Integer>();
 
 	// takes in positions of model's vertices, loads into a VAO, then returns info about the VAO as a variable in RawModel object
-	public RawModel loadToVAO(float[] positions) {
+	public RawModel loadToVAO(float[] positions, int[] indices) {
 		int vaoID = createVAO();
+		bindIndicesBuffer(indices); // bind indices VBO to VAO automatically without GL20.glVertexAttribPointer(...), since VBO of type GL_ELEMENT_ARRAY_BUFFER is stored in the VAO's "state vector", note that we bind VBO after binding VAO (in createVao())
 		storeDataInAttributeList(0, positions); // store positional data into attribute list 0 of the VAO
 		unbindVAO(); // finished with VAO
-		return new RawModel(vaoID, positions.length/3); // positions.length/3 is the number of vertices of the model, 3 since each vertex has 3 floats (x,y,z)
+		//return new RawModel(vaoID, positions.length/3); // positions.length/3 is the number of vertices of the model, 3 since each vertex has 3 floats (x,y,z)
+		return new RawModel(vaoID, indices.length); // indices.length is the number of vertices of the model
 	}
 	
 	// when closing down game, delete all VAOs and VBOs in Lists vaos and vbos
@@ -47,7 +50,7 @@ public class Loader {
 	private void storeDataInAttributeList(int attributeNumber, float[] data) {
 		// we have to store data into VAO's attribute lists as VBOs
 		int vboID = GL15.glGenBuffers(); // creates empty VBO and returns its ID
-		vbos.add(vboID); // toring all VBOs into a List for easy memory management/deleting later
+		vbos.add(vboID); // storing all VBOs into a List for easy memory management/deleting later
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboID); // need to activate (bind) VBO before doing anything to it, GL_ARRAY_BUFFER is a type of VBO
 		FloatBuffer buffer = storeDataInFloatBuffer(data); // data has to be stored into a VBO as a FloatBuffer, so we must convert our float array of data into a FloatBuffer of data
 		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW); // stores buffer data into VBO, GL_ARRAY_BUFFER is the type of VBO, 3rd param specifies what the data is going to be used for, GL_STATIC_DRAW indicates that we won't edit the data once it's stored in the VBO
@@ -58,6 +61,23 @@ public class Loader {
 	// must unbind VAO when finished using it
 	private void unbindVAO() {
 		GL30.glBindVertexArray(0); // 0 indicates unbinding currently bound VAO
+	}
+	
+	// load indices buffer and bind to VAO (to use less data in the case of shared vertices among triangles), note that we don't use GL20.glVertexAttribPointer(...), since VBO of type GL_ELEMENT_ARRAY_BUFFER is stored in the VAO's "state vector", note that we bind VBO after binding VAO (in createVAO()), "Don't unbind the index buffer anywhere! Each VAO has one special slot for an index buffer, and unbinding the index buffer will remove it from that slot"
+	private void bindIndicesBuffer(int[] indices) {
+		int vboID = GL15.glGenBuffers();
+		vbos.add(vboID);
+		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, vboID); // GL_ELEMENT_ARRAY_BUFFER tells OpenGL to use this VBO as an indices buffer
+		IntBuffer buffer = storeDataInIntBuffer(indices);
+		GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
+	}
+	
+	// data has to be stored into a VBO as an IntBuffer, so we must convert our int array of data into an IntBuffer of data
+	private IntBuffer storeDataInIntBuffer(int[] data) {
+		IntBuffer buffer = BufferUtils.createIntBuffer(data.length);
+		buffer.put(data);
+		buffer.flip();
+		return buffer;
 	}
 	
 	// data has to be stored into a VBO as a FloatBuffer, so we must convert our float array of data into a FloatBuffer of data
