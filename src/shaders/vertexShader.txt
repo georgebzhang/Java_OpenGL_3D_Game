@@ -11,4 +11,4 @@ void main(void) { // runs everytime a vertex is processed this vertexShader
 	// tell OpenGL where to render this vertex on the screen
 	gl_Position = transformationMatrix * vec4(position, 1.0); // same as position from VAO
 	pass_textureCoords = textureCoords; // same as textureCoords from VAO, so they will be linearly interpolated
-}
+}c
