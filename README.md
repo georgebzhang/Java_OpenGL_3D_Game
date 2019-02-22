@@ -16,17 +16,3 @@ Using LWJGL 2 and Slick-Utils
   <img width="300" src="https://github.com/georgebzhang/Java_OpenGL_3D_Game/blob/master/Readme_img/3.PNG">
 </p>
 
-<div align="middle">
-  <table style="width=100%">
-    <tr>
-      <td>
-        <img width="300" src="https://github.com/georgebzhang/Java_OpenGL_3D_Game/blob/master/Readme_img/3.PNG"/>
-        <figcaption align="middle">Discontinuities.</figcaption>
-      </td>
-      <td>
-        <img width="300" src="https://github.com/georgebzhang/Java_OpenGL_3D_Game/blob/master/Readme_img/3.PNG" align="middle"/>
-        <figcaption align="middle">Jaggies.</figcaption>
-      </td>
-    </tr>
-  </table>
-</div>
