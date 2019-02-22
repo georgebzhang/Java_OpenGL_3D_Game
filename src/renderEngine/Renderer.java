@@ -9,8 +9,8 @@ public class Renderer {
 
 	// called once every frame to prepare OpenGL to render game
 	public void prepare() {
+		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT); // clears color from previous frame
 		GL11.glClearColor(1, 0, 0, 1); // clear color from last frame, new color is (r,g,b,a)
-		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 	}
 	
 	// renders a RawModel
