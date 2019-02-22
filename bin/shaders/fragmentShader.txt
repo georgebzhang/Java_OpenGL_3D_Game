@@ -1,0 +1,9 @@
+#version 400 core // GLSL version
+
+in vec3 colour; // input of fragmentShader is output of vertexShader
+
+out vec4 out_Color; // color of pixel currently being processed
+
+void main(void) {
+	out_Color = vec4(colour, 1.0);
+}

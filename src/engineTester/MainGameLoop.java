@@ -8,6 +8,7 @@ import renderEngine.DisplayManager;
 import renderEngine.Loader;
 import renderEngine.RawModel;
 import renderEngine.Renderer;
+import shaders.StaticShader;
 
 public class MainGameLoop {
 
@@ -17,6 +18,7 @@ public class MainGameLoop {
 		
 		Loader loader = new Loader();
 		Renderer renderer = new Renderer();
+		StaticShader shader = new StaticShader();
 		
 		float[] vertices = {
 				-0.5f, 0.5f, 0f, // V0
@@ -33,17 +35,16 @@ public class MainGameLoop {
 		RawModel model = loader.loadToVAO(vertices, indices); // loads vertices into a VBO, which is loaded into an attribute list in a VAO, whose ID is stored in the returned RawModel model
 		
 		while(!Display.isCloseRequested()) {
-			renderer.prepare(); // called once every frame to prepare OpenGL to render game
 			// game logic
+			renderer.prepare(); // called once every frame to prepare OpenGL to render game
+			shader.start(); // start program to use it
 			renderer.render(model); // renders model by drawing data from its VAO
+			shader.stop(); // done using program
 			DisplayManager.updateDisplay();
-			
 		}
 		
+		shader.cleanUp(); // detach and delete vertex and fragment shaders, delete program 
 		loader.cleanUp(); // delete all VAOs and VBOs in Lists vaos and vbos
-		
 		DisplayManager.closeDisplay();
-
 	}
-
 }
