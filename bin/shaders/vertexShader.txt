@@ -6,9 +6,11 @@ in vec2 textureCoords; // textureCoords from VAO
 out vec2 pass_textureCoords;
 
 uniform mat4 transformationMatrix;
+uniform mat4 projectionMatrix;
+uniform mat4 viewMatrix;
 
-void main(void) { // runs everytime a vertex is processed this vertexShader
+void main(void) { // runs everytime a vertex is processed by this vertexShader
 	// tell OpenGL where to render this vertex on the screen
-	gl_Position = transformationMatrix * vec4(position, 1.0); // same as position from VAO
+	gl_Position = projectionMatrix * viewMatrix * transformationMatrix * vec4(position, 1.0); // same as position from VAO
 	pass_textureCoords = textureCoords; // same as textureCoords from VAO, so they will be linearly interpolated
 }

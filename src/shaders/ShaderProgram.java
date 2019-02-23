@@ -34,6 +34,7 @@ public abstract class ShaderProgram {
 	}
 	
 	// makes sure all shader program classes have a method to get all uniform locations
+	// simply calls super.getUniformLocation(...) for each uniform variable
 	protected abstract void getAllUniformLocations();
 	
 	// gets location (int) of a uniform variable in shader code
@@ -61,9 +62,16 @@ public abstract class ShaderProgram {
 		GL20.glDeleteProgram(programID);
 	}
 	
-	// classes implementing ShaderProgram must define bindAttributes()
-	// links inputs to shader programs to one of the attributes of the VAO
+	// classes extending ShaderProgram must define bindAttributes()
+	// links inputs to shader programs to one of the attribute lists of the VAO
+	// simply calls super.bindAttribute(...) for each attribute list
 	protected abstract void bindAttributes();
+	
+	// need this method, cannot be done outside this class since programID is private
+	// binds attribute list at index attribute of currently bound VAO to variable name in shader code
+	protected void bindAttribute(int attribute, String variableName) {
+		GL20.glBindAttribLocation(programID, attribute, variableName);
+	}
 	
 	// methods to load values to uniform locations
 	protected void loadFloat(int location, float value) {
@@ -85,12 +93,6 @@ public abstract class ShaderProgram {
 		matrix.store(matrixBuffer); // stores Matrix4f into FloatBuffer
 		matrixBuffer.flip(); // switch from write to read
 		GL20.glUniformMatrix4(location, false, matrixBuffer); // 2nd param is transpose
-	}
-	
-	// need this method, cannot be done outside this class since programID is private
-	// binds attribute list at index attribute of currently bound VAO to variable name in shader code
-	protected void bindAttribute(int attribute, String variableName) {
-		GL20.glBindAttribLocation(programID, attribute, variableName);
 	}
 	
 	// load shader source code files, 1st param is filename of source code file, 2nd param indicates whether shader is vertex or fragment shader

@@ -14,7 +14,6 @@ public class DisplayManager {
 	private static final int FPS_CAP = 120;
 	
 	public static void createDisplay() {
-		
 		ContextAttribs attribs = new ContextAttribs(3,2) // 3,2 for 3.2 (version of OpenGL)
 				.withForwardCompatible(true) // setting context attribs must all be done in one line
 				.withProfileCore(true); // setting context attribs must all be done in one line
@@ -28,20 +27,15 @@ public class DisplayManager {
 		}
 		
 		GL11.glViewport(0, 0, WIDTH, HEIGHT); // tell OpenGL where (whole display) in the display to render the game. (0, 0) is bottom left of display, (WIDTH, HEIGHT) is top right of display.
-		
 	}
 	
 	public static void updateDisplay() {
-		
 		Display.sync(FPS_CAP); // synchronizes game to run at steady fps
 		Display.update();
-		
 	}
 	
 	public static void closeDisplay() {
-		
 		Display.destroy();
-		
 	}
 
 }

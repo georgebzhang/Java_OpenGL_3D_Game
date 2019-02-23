@@ -44,8 +44,10 @@ public class Loader {
 		try {
 			texture = TextureLoader.getTexture("PNG", new FileInputStream("res/" + fileName + ".png"));
 		} catch (FileNotFoundException e) {
+			System.err.println("Could not find file!");
 			e.printStackTrace();
 		} catch (IOException e) {
+			System.err.println("Could not read file!");
 			e.printStackTrace();
 		}
 		int textureID = texture.getTextureID();
@@ -116,5 +118,4 @@ public class Loader {
 		buffer.flip(); // prepares FloatBuffer to be read from, previously expected to be written to. buffer.flip() indicates that we are finished writing to buffer and are ready to read
 		return buffer;
 	}
-	
 }
