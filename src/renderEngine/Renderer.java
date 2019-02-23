@@ -34,7 +34,7 @@ public class Renderer {
 	public void prepare() {
 		GL11.glEnable(GL11.GL_DEPTH_TEST); // tests which triangles are in front of each other
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); // clears color and depth buffer from previous frame
-		GL11.glClearColor(1, 0, 0, 1); // clear color from last frame, new color is (r,g,b,a)
+		GL11.glClearColor(0, 0, 0, 1); // clear color from last frame, new color is (r,g,b,a)
 	}
 	
 	// renders a RawModel
