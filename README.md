@@ -40,3 +40,8 @@ Using LWJGL 2 and Slick-Utils
 <p align="center">
   <img width="300" src="https://github.com/georgebzhang/Java_OpenGL_3D_Game/blob/master/Readme_img/8.PNG">
 </p>
+
+9. Lighting.
+<p align="center">
+  <img width="300" src="https://github.com/georgebzhang/Java_OpenGL_3D_Game/blob/master/Readme_img/9.PNG">
+</p>
