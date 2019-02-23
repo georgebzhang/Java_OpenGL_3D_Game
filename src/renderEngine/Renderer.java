@@ -49,6 +49,7 @@ public class Renderer {
 		GL30.glBindVertexArray(rawModel.getVaoID()); // need to activate (bind) VAO before doing anything to it, model.getVaoID() returns the VAO that the RawModel model has been loaded to
 		GL20.glEnableVertexAttribArray(0); // need to activate attribute list of VAO with the data, in this case we stored a VBO containing positional data in the attribute list at index 0 of the VAO
 		GL20.glEnableVertexAttribArray(1); // need to activate attribute list 1 of VAO with textureCoords
+		GL20.glEnableVertexAttribArray(2); // normals
 		
 		Matrix4f transformationMatrix = Maths.createTransformationMatrix(entity.getPosition(), entity.getRotX(), entity.getRotY(), entity.getRotZ(), entity.getScale());
 		shader.loadTransformationMatrix(transformationMatrix);
@@ -61,6 +62,7 @@ public class Renderer {
 		GL11.glDrawElements(GL11.GL_TRIANGLES, rawModel.getVertexCount(), GL11.GL_UNSIGNED_INT, 0); // 3rd param is type (giving indices buffer, so GL_UNSIGNED_INT), 4th param specifies where in the data to start rendering from (beginning, so 0)
 		GL20.glDisableVertexAttribArray(0); // finished with the attribute list at index 0 of VAO containing vertex positions, 0 indicates index of VAO to disable
 		GL20.glDisableVertexAttribArray(1); // finished with attribute list containing textureCoords
+		GL20.glDisableVertexAttribArray(2); // disable normals
 		GL30.glBindVertexArray(0); // unbind VAO (0 indicates unbinding currently bound VAO)
 	}
 	

@@ -68,7 +68,7 @@ public abstract class ShaderProgram {
 	protected abstract void bindAttributes();
 	
 	// need this method, cannot be done outside this class since programID is private
-	// binds attribute list at index attribute of currently bound VAO to variable name in shader code
+	// binds attribute list at index of currently bound VAO to variable name in vertex shader code
 	protected void bindAttribute(int attribute, String variableName) {
 		GL20.glBindAttribLocation(programID, attribute, variableName);
 	}

@@ -28,11 +28,12 @@ public class Loader {
 	private List<Integer> textures = new ArrayList<Integer>();
 
 	// takes in positions of model's vertices, loads into a VAO, then returns info about the VAO as a variable in RawModel object
-	public RawModel loadToVAO(float[] positions, float[] textureCoords, int[] indices) {
+	public RawModel loadToVAO(float[] positions, float[] textureCoords, float[] normals, int[] indices) {
 		int vaoID = createVAO();
 		bindIndicesBuffer(indices); // bind indices VBO to VAO automatically without GL20.glVertexAttribPointer(...), since VBO of type GL_ELEMENT_ARRAY_BUFFER is stored in the VAO's "state vector", note that we bind VBO after binding VAO (in createVao())
 		storeDataInAttributeList(0, 3, positions); // store positional data into attribute list 0 of the VAO, 3 is for x,y,z
 		storeDataInAttributeList(1, 2, textureCoords); // store texture coordinates data into attribute list 1 of the VAO, 2 is for u,v
+		storeDataInAttributeList(2, 3, normals); // store normals in attribute list 2 of the VAO, 3 is for x,y,z
 		unbindVAO(); // finished with VAO
 		//return new RawModel(vaoID, positions.length/3); // positions.length/3 is the number of vertices of the model, 3 since each vertex has 3 floats (x,y,z)
 		return new RawModel(vaoID, indices.length); // indices.length is the number of vertices of the model

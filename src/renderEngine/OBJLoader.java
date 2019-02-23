@@ -99,7 +99,7 @@ public class OBJLoader {
 			indicesArray[i] = indices.get(i);
 		}
 		
-		return loader.loadToVAO(verticesArray, textureArray, indicesArray);
+		return loader.loadToVAO(verticesArray, textureArray, normalsArray, indicesArray);
 	}
 	
 	// We assume that vertices are "in order", because logically we can assume that one of the sets is in order... However, textures and normals are not in the same order as vertices
