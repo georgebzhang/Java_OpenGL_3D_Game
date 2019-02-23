@@ -26,7 +26,12 @@ Using LWJGL 2 and Slick-Utils
   <img width="300" src="https://github.com/georgebzhang/Java_OpenGL_3D_Game/blob/master/Readme_img/5.PNG">
 </p>
 
-5. Shader uniform variables and transformation matrices.
+6. Shader uniform variables and transformation matrices.
 <p align="center">
   <img width="300" src="https://github.com/georgebzhang/Java_OpenGL_3D_Game/blob/master/Readme_img/6.PNG">
+</p>
+
+7. Added cube, and view and projection matrices.
+<p align="center">
+  <img width="300" src="https://github.com/georgebzhang/Java_OpenGL_3D_Game/blob/master/Readme_img/7.PNG">
 </p>
